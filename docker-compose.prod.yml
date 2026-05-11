@@ -15,8 +15,6 @@ services:
       - DB_USER=${DB_USER:-romm}
       - DB_PASSWD=${DB_PASSWD:-rommdbpassword123}
       - ROMM_BASE_PATH=/romm
-    ports:
-      - "80:8080"
     volumes:
       - romm-library:/romm/library
       - romm-resources:/romm/resources
@@ -29,10 +27,25 @@ services:
     container_name: romm-valkey
     restart: unless-stopped
     volumes:
-      - romm-valkey-data:/data
+      - valkey-data:/data
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - romm
 
 volumes:
   romm-library:
   romm-resources:
   romm-config:
-  romm-valkey-data:
+  valkey-data:
+  caddy_data:
+  caddy_config:
