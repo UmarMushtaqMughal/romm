@@ -1,0 +1,40 @@
+# Production docker-compose for AWS deployment
+# Uses RDS MariaDB instead of local database container
+
+services:
+  romm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: romm
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - REDIS_HOST=romm-valkey
+      - DB_HOST=${DB_HOST:-romm-db.ck3oweai2wyr.us-east-1.rds.amazonaws.com}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_NAME=${DB_NAME:-romm}
+      - DB_USER=${DB_USER:-romm}
+      - DB_PASSWD=${DB_PASSWD:-rommdbpassword123}
+      - ROMM_BASE_PATH=/romm
+    ports:
+      - "8080:8080"
+    volumes:
+      - romm-library:/romm/library
+      - romm-resources:/romm/resources
+      - romm-config:/romm/config
+    depends_on:
+      - romm-valkey
+
+  romm-valkey:
+    image: valkey/valkey:8
+    container_name: romm-valkey
+    restart: unless-stopped
+    volumes:
+      - romm-valkey-data:/data
+
+volumes:
+  romm-library:
+  romm-resources:
+  romm-config:
+  romm-valkey-data:

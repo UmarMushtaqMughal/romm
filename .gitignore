@@ -68,3 +68,7 @@ switch_product_ids.json
 
 # AI tools
 .claude
+
+# AWS keys and credentials
+*.pem
+*.key
