@@ -16,7 +16,7 @@ services:
       - DB_PASSWD=${DB_PASSWD:-rommdbpassword123}
       - ROMM_BASE_PATH=/romm
     ports:
-      - "8080:8080"
+      - "80:8080"
     volumes:
       - romm-library:/romm/library
       - romm-resources:/romm/resources
