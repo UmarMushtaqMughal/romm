@@ -5,7 +5,7 @@ services:
   romm:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: romm
     restart: unless-stopped
     env_file: .env
