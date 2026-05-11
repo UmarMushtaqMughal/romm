@@ -1,11 +1,9 @@
 # Production docker-compose for AWS deployment
-# Uses RDS MariaDB instead of local database container
+# Uses official RomM image + RDS MariaDB
 
 services:
   romm:
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
+    image: rommapp/romm:latest
     container_name: romm
     restart: unless-stopped
     env_file: .env
